@@ -1,0 +1,125 @@
+<style>
+    form {
+    margin-top: 50px;
+  }
+  form .strength {
+    height: 0px;
+    width: 50%;
+    background : white;
+    margin-top: -7px;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    overflow: hidden;
+    -webkit-transition: height 0.3s;
+    transition: height 0.3s;
+  }
+  form .strength span {
+    width: 0px;
+    height: 7px;
+    display: block;
+    -webkit-transition: width 0.3s;
+    transition: width 0.3s;
+  }
+  #password-strength{
+    height: 7px;
+  }
+  
+  </style>
+  <div class="container">
+      <div class="row">
+        <form>
+          <div class="col-sm-12 col-md-8 col-md-offset-2">
+            <div class="form-group">
+              <input type="password" data-strength class="form-control input-lg" name="password" placeholder="Password" onkeyup="passwordCheck(this.value)">
+             </div>
+             <br>
+              <div id="password-strength" class="strength"><span></span></div>
+            
+          </div>
+        </form>
+      </div>
+    </div>
+<script>
+    
+  
+  function passwordCheck(password) {
+    	
+        //Regular Expressions.
+        if(password == ''){
+          document.querySelector('#password-strength').style.display ='none';
+        }else{
+          document.querySelector('#password-strength').style.display ='block';          
+        }
+        console.log(password)
+        var regex = new Array();
+        regex.push("[A-Z]"); 
+        regex.push("[a-z]"); 
+        regex.push("[0-9]"); 
+        regex.push("[$@$!%*#?&]"); 
+ 
+        var passed = 0;
+        
+ 
+        //Validate for each Regular Expression.
+        for (var i = 0; i < regex.length; i++) {
+            if (new RegExp(regex[i]).test(password)) {
+                passed++;
+            }
+        }
+ 
+        //Validate for length of Password.
+       
+        if (passed < 3 || password.length < 8) {
+            passed=1;
+        }
+        else if( passed === 3 && password.length==8){
+            passed=2;
+        }
+        else if(passed >3 && password.length>8){
+            passed=4
+        }
+        else{
+            passed=3;
+        }
+  
+    displayBar(passed);
+  }
+  
+  function displayBar(strength) {
+  console.log(strength);
+  var elem = document.querySelector('#password-strength span');
+  // console.log(elem);
+  switch (strength) {
+    case 1:
+      elem.style.width = "25%";
+      elem.style.height = "7px";
+      elem.style.background = "#de1616";
+      break;
+
+    case 2:
+      elem.style.width = "50%";
+      elem.style.height = "7px";
+      elem.style.background = "#FFA200";
+      break;
+
+    case 3:
+      elem.style.width = "75%";
+      elem.style.height = "7px";
+      elem.style.background = "#def704";
+      break;
+
+    case 4:
+      elem.style.width = "100%";
+      elem.style.height = "7px";
+      elem.style.background = rgb(8, 226, 37);
+      break;
+
+    default:
+      elem.style.width = "0%";
+  }
+}
+
+  
+  
+  
+</script>
